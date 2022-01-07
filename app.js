@@ -51,8 +51,14 @@ async function main() {
             "Pulitzer Prize Winners and Finalists, 1990-2014": 0
         })
         assert.equal(updatedItem.Newspaper, "My new paper")
+
         const newAddedItemQuery = await circulationRepo.getById(addedItem._id)
         assert.equal(newAddedItemQuery.Newspaper, "My new paper")
+
+        const removed = await circulationRepo.remove(addedItem._id)
+        assert(removed)
+        const removedItem = await circulationRepo.getById(addedItem._id)
+        assert.equal(removedItem, null)
     }
 
     catch(err) {
