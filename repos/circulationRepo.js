@@ -76,7 +76,25 @@ function circulationRepo() {
             }
         })
     }
-    return { loadData, get, getById, add }
+
+    function update(id, item) {
+        return new Promise(async (resolve, reject) => {
+            const client = new MongoClient(url)
+            try {
+                await client.connect()
+                const db = client.db(dbName)
+
+                const updatedItem = await db.collection('newspapers')
+                    .findOneAndReplace({ _id: ObjectID(id) }, item, { returnOriginal: false })
+                resolve(updatedItem.value)
+                client.close()
+            }
+            catch(err) {
+                reject(err)
+            }
+        })
+    }
+    return { loadData, get, getById, add, update }
 }
 
 module.exports = circulationRepo()
