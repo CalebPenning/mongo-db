@@ -62,6 +62,9 @@ async function main() {
 
         const avgFinalists = await circulationRepo.averageFinalists()
         console.log("here are the average finalists: " + avgFinalists)
+
+        const avgByChange = await circulationRepo.averageFinalistsByChange()
+        console.log(avgByChange)
     }
 
     catch(err) {
